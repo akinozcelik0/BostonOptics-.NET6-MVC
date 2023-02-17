@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace ApplicationCore.Entities
 {
-    internal class BaseEntity
+    public class BaseEntity
     {
+        public virtual int Id { get; set; }
+
+
     }
 }
