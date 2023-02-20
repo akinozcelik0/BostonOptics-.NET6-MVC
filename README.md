@@ -2,6 +2,18 @@
 Sunglass Store project created with C# and .NET MVC. Project created with Clean Architecture and Generic Repository Design.
 
 
+## Migrations
+
+## Infrastructure
+Firstly, set the project "Web" as startup project.<br>
+Choose Infrastructure on package manager console.<br>
+
+```
+Add-Migration InitialCreate -context ShopContext -o Data/Migrations
+Update-Database -context ShopContext
+```
+
+
 ## Packages Installed
 ### Application Core
 ```
