@@ -1,4 +1,5 @@
-﻿@inject IRepository<Product> productRepo
+﻿@model HomeViewModel
+
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -9,7 +10,7 @@
 </div>
 
 
-@foreach (var item in await productRepo.GetAllAsync())
+@foreach (var item in Model.Products)
 {
     
     <p><img src="~/img/products/@item.PictureUri" alt="Product" height="32" />@item.Name</p>
