@@ -2,6 +2,8 @@ global using Infrastructure.Identity;
 global using Infrastructure.Data;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.EntityFrameworkCore;
+global using ApplicationCore.Interfaces;
+global using ApplicationCore.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,7 @@ builder.Services.AddDbContext<AppIdentityDbContext>(options =>
 builder.Services.AddDbContext<ShopContext>(options => 
     options.UseNpgsql(builder.Configuration.GetConnectionString("ShopContext")));
 
+builder.Services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => 
@@ -51,7 +54,12 @@ app.MapRazorPages();
 using (var scope = app.Services.CreateScope())
 {
     var shopContext = scope.ServiceProvider.GetRequiredService<ShopContext>();
+    var identityContext = scope.ServiceProvider.GetRequiredService<AppIdentityDbContext>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
     await ShopContextSeed.SeedAsync(shopContext);
+    await AppIdentityDbContextSeed.SeedAsync(identityContext, roleManager, userManager);
 }
 
 app.Run();
+
