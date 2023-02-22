@@ -43,7 +43,7 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseRequestLocalization("en-US");
 app.UseRouting();
 
 app.UseAuthentication();
